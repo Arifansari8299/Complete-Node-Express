@@ -1,0 +1,2 @@
+req(request) object contains all the information about the incoming request like URL, parameter, header,
+body
