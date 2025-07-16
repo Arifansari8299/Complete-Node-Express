@@ -4,6 +4,8 @@ const app = express();
 app.set("view engine", "ejs"); // set EJS as template engine
 app.set("views", "views");     // set custom views folder (optional)
 
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
     res.render('home', { name: "Arif" }); // renders views/home.ejs
 });
