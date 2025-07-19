@@ -7,4 +7,4 @@ const Studentchema = new mongoose.Schema({
     city:String
 });
 const Student = mongoose.model('Student',Studentchema);
-module.exports = Student;
+module.exports = Student;d
