@@ -1,3 +1,6 @@
 node_modules/
 .env
 06-crud-mongodb/.env
+
+# Ignore real .env files
+**/.env
