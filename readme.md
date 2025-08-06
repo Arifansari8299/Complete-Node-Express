@@ -7,7 +7,7 @@ npm init -y
 npm install express
 touch server.js
 ```
-
+All dependencies
 ```
-
+cors multer nodemon mongoose dotenv jwt 
 ```
