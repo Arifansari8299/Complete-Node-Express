@@ -1,11 +1,8 @@
-const express = require('express')
-const router = express.Router();
-const studentController = require('../controllers/studentControllers');
+const express = require("express");
+const {
+  createStudent,
+  getStudents,
 
-// post request to create the students
-router.post('/',studentController.createStudent);
-
-// GET request to fetch all the students
-router.get('/',studentController.getStudents);
-
-module.exports = router;
+  updateStudent,
+  deleteStudent,
+} = require("../controllers/studentControllers");
