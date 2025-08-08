@@ -2,7 +2,7 @@ import React from 'react'
 
 const Register = () => {
   return (
-    <div>Resister </div>
+    <div>Resister by lazy loading </div>
   )
 }
 
