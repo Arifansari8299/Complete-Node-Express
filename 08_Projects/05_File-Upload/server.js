@@ -38,7 +38,16 @@ app.post('/upload',upload.single('resume'), async (req, res)=> {
         res.status(500).json({error:err.message})
     }
 })
-
+app.get('/files', async (req, res)=> {
+    const files = await Resume.find().sort({uploadedAt: -1});
+    res.json(files);
+});
+app.get('/download/:id',async (req, res)=> {
+    const fileDoc = await Resume.findById(req.params.id);
+    if(!fileDoc) return res.status(404).send('File not found');
+    const filePath = path.join(__dirname,'uploads',fileDoc.fileName);
+    res.download(filePath, fileDoc.originalName)
+})
 PORT = process.env.PORT || 8080
 app.listen(PORT, () =>{
     console.log(`server is running on ${PORT}`)
