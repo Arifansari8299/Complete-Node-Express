@@ -1,18 +1,44 @@
 const express = require('express')
-const app = express();
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
-const connectDB = require("./config/db")
+const connectDB = require("./config/db");
+const Resume = require('./models/Resume');
 dotenv.config();
 
+// App setups and middlewares
+const app = express();
+app.use(express.json());
+app.use(cors())
+
+// Ensure upload folders exists
+
 // MongoDB connection
-// mongoose.connect(process.env.MONGODB_URI)
-// .then(()=>console.log("MongoDB Connected"))
-// .catch((err)=>console.log(err))
 connectDB();
+
+//Multer setup
+
+//Routes
 app.get('/',(req, res)=> {
     res.send("hello everyone how are u")
 })
+app.post('/upload',upload.single('resume'), async (req, res)=> {
+    try {
+        if(!req.file) return res.status(400).json({message: 'No file uploaded'})
+            const file = req.file;
+            const newFile = await Resume.create({
+                originalName: file.originalname,
+                fileName: file.filename,
+                size: file.size,
+                mimetype: file.mimetype,
+                ext: path.extname(file.originalname).toLowercase()
+            });
+            res.json({message: 'File uploaded successfully', file: newFile});
+    }
+    catch(err){
+        res.status(500).json({error:err.message})
+    }
+})
+
 PORT = process.env.PORT || 8080
 app.listen(PORT, () =>{
     console.log(`server is running on ${PORT}`)
