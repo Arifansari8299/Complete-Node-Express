@@ -1,10 +1,10 @@
 const express = require("express");
 const puppeteer = require("puppeteer");
-const ejs = require('ejs')
-const path = require('path')
+const ejs = require("ejs");
+const path = require("path");
 const app = express();
 
-app.set('view engine','ejs')
+app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
   try {
@@ -50,18 +50,34 @@ app.get("/invoice", async (req, res) => {
     const page = await browser.newPage();
 
     const invoiceData = {
-        invoiceNumber:1234,
-        customer:'Yahoo Baba',
-        product:'ExpressJS course',
-        price:'99'
-    }
-    const htmlContent = await ejs.renderFile(path.join(__dirname, 'views', 'invoice.ejs'),invoiceData)
+      invoiceNumber: 1234,
+      customer: "Yahoo Baba",
+      product: "ExpressJS course",
+      price: "99",
+    };
+    const htmlContent = await ejs.renderFile(
+      path.join(__dirname, "views", "invoice.ejs"),
+      invoiceData
+    );
 
-    await page.setContent(htmlContent,{waitUntil:'domcontentloaded'});
+    await page.setContent(htmlContent, { waitUntil: "domcontentloaded" });
     const pdfBuffer = await page.pdf({
-      format: "A4",
-      printBackground:true
-    });
+        format: "A4",
+        margin: { top: "60px", right: "20px", bottom: "40px", left: "20px" },
+        printBackground: true,
+        displayHeaderFooter: true,
+        headerTemplate: `
+          <div style="width:100%; text-align:center; font-size:30px; border-bottom:1px solid #000; padding-bottom:10px;">
+            OneOrigin
+          </div>
+        `,
+        footerTemplate: `
+          <div style="width:100%; text-align:center; font-size:20px;">
+            Page <span class="pageNumber"></span> of <span class="totalPages"></span>
+          </div>
+        `,
+      });
+      
     await browser.close();
 
     res.contentType("application/pdf");
