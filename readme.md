@@ -11,3 +11,6 @@ All dependencies
 ```
 cors multer nodemon mongoose dotenv jwt 
 ```
+```
+npm i puppeteer ( for pdf generation)
+```
